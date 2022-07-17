@@ -1,0 +1,21 @@
+# ninja log v5
+1	1182	6797985736291965	CMakeFiles/AviGenerator.dir/main.c.obj	729bf1e94951bb02
+1184	1333	6797985737818704	AviGenerator.exe	439e33b4849330ea
+1	1517	6798000524942019	CMakeFiles/delete.dir/delete.c.obj	caae7c6abbbd4294
+1518	1654	6798000526242141	delete.exe	ca85b19f81dbdecb
+2	1160	6798000622338321	CMakeFiles/delete.dir/delete.c.obj	caae7c6abbbd4294
+1160	1272	6798000623490577	delete.exe	ca85b19f81dbdecb
+2	1086	6798000821271505	CMakeFiles/delete.dir/delete.c.obj	caae7c6abbbd4294
+1086	1166	6798000822041324	delete.exe	ca85b19f81dbdecb
+3	1378	6798018085915372	CMakeFiles/delete.dir/delete.c.obj	caae7c6abbbd4294
+1379	1513	6798018087274799	delete.exe	ca85b19f81dbdecb
+4	1196	6798018563286897	CMakeFiles/delete.dir/delete.c.obj	caae7c6abbbd4294
+1196	1335	6798018564644544	delete.exe	ca85b19f81dbdecb
+3	1405	6798018707803463	CMakeFiles/delete.dir/delete.c.obj	caae7c6abbbd4294
+1405	1489	6798018708617734	delete.exe	ca85b19f81dbdecb
+4	1565	6798018770309134	CMakeFiles/delete.dir/delete.c.obj	caae7c6abbbd4294
+1565	1653	6798018771164282	delete.exe	ca85b19f81dbdecb
+3	1280	6798037779907680	CMakeFiles/delete.dir/delete.c.obj	caae7c6abbbd4294
+1280	1452	6798037781595598	delete.exe	ca85b19f81dbdecb
+5	1247	6798039852882283	CMakeFiles/delete.dir/delete.c.obj	caae7c6abbbd4294
+1248	1434	6798039854720917	delete.exe	ca85b19f81dbdecb

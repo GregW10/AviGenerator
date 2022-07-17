@@ -1,11 +1,13 @@
+//
+// created by Gregor Hartl Watters on 17/07/2022
+//
+
 #ifndef _WIN32
 #error Cannot compile on operating system other than Windows.
 #else
 
 #include <windows.h>
-#include <shlobj.h>
-#include <time.h>
-#include <stdio.h>
+#include "funcs.h"
 
 unsigned short x_screen;
 unsigned short y_screen;
@@ -41,15 +43,6 @@ HWND hButton;
 #define BTN_ID 3
 
 char *filePath;
-
-size_t strlen_c(const char *str) {
-    if (str == NULL || *str == 0) {
-        return 0;
-    }
-    size_t count = 0;
-    while (*str++) ++count;
-    return count;
-}
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     switch (uMsg) {
@@ -117,7 +110,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
             if (LOWORD(wParam) == BTN_ID) {
                 if (HIWORD(wParam) == BN_CLICKED) {
                     char *msg = malloc(strlen_c(filePath) + 29);
-                    sprintf(msg, "The .avi file was saved to: %s", filePath);
+                    sprintf(msg, "The .avi file was saved as: %s", filePath);
                     MessageBox(hWnd, msg, "File Info", MB_OK | MB_ICONINFORMATION);
                     free(msg);
                 }
@@ -139,10 +132,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     x_screen = GetSystemMetrics(SM_CXSCREEN);
     y_screen = GetSystemMetrics(SM_CYSCREEN);
 
-    filePath = malloc(PATH_MAX);
-
-    HRESULT hResult = SHGetFolderPath(NULL, CSIDL_PROFILE, NULL, SHGFP_TYPE_CURRENT, filePath);
-    if (hResult != S_OK) {
+    filePath = getHomePath(False);
+    if (!filePath) {
         MessageBox(NULL, "Error retrieving home path.", "Error!", MB_OK | MB_ICONEXCLAMATION);
         return -1;
     }

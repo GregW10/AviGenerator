@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.21)
+project(AviGenerator C)
+
+set(CMAKE_C_STANDARD 17)
+set(C_CMAKE_FLAGS "-static")
+
+add_executable(AviGenerator WIN32 main.c funcs.h)
+add_executable(delete delete.c)
