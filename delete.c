@@ -19,7 +19,7 @@ int main() {
         printf("Char: %d\n", *str++);
     }
 
-    char test[50];
+    char test[50] = {0};
 
     strcpy_c(test, "Bro! What the fuck are you doing here?");
 
