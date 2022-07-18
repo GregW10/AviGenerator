@@ -35,6 +35,15 @@ size_t strcat_c(char *destStr, const char *srcStr) {
     return count;
 }
 
+size_t strcpy_c(char *destStr, const char *srcStr) { // copies the null character
+    if (destStr == NULL || srcStr == NULL || *srcStr == 0 || *destStr == 0) {
+        return 0;
+    }
+    size_t count = 0;
+    while ((*destStr++ = *srcStr++)) ++count;
+    return count;
+}
+
 short strcmp_c(const char *str1, const char *str2) {
     if (str1 == NULL || str2 == NULL || *str1 == 0 || *str2 == 0) {
         return 0;
@@ -62,7 +71,7 @@ char *getHomePath(bool reallocate) {
     return retPath;
 }
 
-char *getFormattedTime() {
+const char *getFormattedTime() {
     static char retStr[20] = {0};
     char *ptr = retStr;
     time_t t = time(NULL);
@@ -107,6 +116,25 @@ char *getFormattedTime() {
         *++ptr = *ot++;
     }
     return retStr;
+}
+
+int replaceWithTime(char *str, size_t pos) {
+    if (str == NULL || *str == 0) {
+        return 1;
+    }
+    const char *time = getFormattedTime();
+    size_t len;
+    if ((len = strlen_c(str)) < pos) {
+        pos = len;
+    }
+    str += pos;
+    while (*time) {
+        *str++ = *time++;
+    }
+    if (len < strlen_c(time)) {
+        *str = 0;
+    }
+    return 0;
 }
 #endif
 #endif

@@ -19,5 +19,11 @@ int main() {
         printf("Char: %d\n", *str++);
     }
 
+    char test[50];
+
+    strcpy_c(test, "Bro! What the fuck are you doing here?");
+
+    printf("The string: %s\n", test);
+
     return 0;
 }
