@@ -1,4 +1,5 @@
 C:/Users/mario/AviGenerator/cmake-build-debug/CMakeFiles/delete.dir
 C:/Users/mario/AviGenerator/cmake-build-debug/CMakeFiles/AviGenerator.dir
+C:/Users/mario/AviGenerator/cmake-build-debug/CMakeFiles/Testing.dir
 C:/Users/mario/AviGenerator/cmake-build-debug/CMakeFiles/edit_cache.dir
 C:/Users/mario/AviGenerator/cmake-build-debug/CMakeFiles/rebuild_cache.dir

@@ -6,24 +6,21 @@
 
 int main() {
 
-    char *one = "Harry";
-    char *two = "Harry";
-
-    printf("Compare: %d\n", strcmp_c(one, two));
-
-    char *str;
-
-    printf("time: %s\n", str = getFormattedTime());
-
-    while (*str) {
-        printf("Char: %d\n", *str++);
-    }
-
-    char test[50] = {0};
+    char test[500] = {0};
 
     strcpy_c(test, "Bro! What the fuck are you doing here?");
 
-    printf("The string: %s\n", test);
+    printf("Test before: %s\n\n", test);
+
+    printf("Retval: %d\n", replaceWithTime(test, 70));
+
+    printf("Test after: %s\n", test);
+
+    for (size_t i = 0; i < 50; ++i) {
+        printf("The char: %d\n", *(test + i));
+    }
+
+    printf("GetDeviceCaps() retval: %d\n", GetDeviceCaps(NULL, RC_STRETCHBLT));
 
     return 0;
 }

@@ -14,6 +14,8 @@
 unsigned short x_screen;
 unsigned short y_screen;
 
+const char BMP_PATH[] = "GregoriaLuchoRojo.bmp";
+
 #define MAIN_WINDOW_X (x_screen / 10)
 #define MAIN_WINDOW_Y (y_screen / 10)
 
@@ -44,17 +46,72 @@ HWND hTxt;
 HWND hButton;
 #define BTN_ID 3
 
-char *filePath;
+HWND hEdit;
+#define EDT_CTL_ID 15
+
+HBITMAP hBMP;
+
+HWND hInitBMPWnd;
+#define IBMP_ID 63
+
+HWND hFinalBMPWnd;
+#define FBMP_ID 31
+
+char *filePath = NULL;
+size_t timeOffset = 0;
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     switch (uMsg) {
         case WM_CREATE: {
+            HINSTANCE hInst = GetModuleHandle(NULL);
             hTxt = CreateWindow("STATIC", "AVI File Generator", WS_CHILD | WS_VISIBLE | SS_NOTIFY | SS_CENTER,
                                 MAIN_TEXT_X, MAIN_TEXT_Y, MAIN_TEXT_WIDTH, MAIN_TEXT_HEIGHT, hWnd, (HMENU) TEXT_ID,
-                                GetModuleHandle(NULL), NULL);
+                                hInst, NULL);
             hButton = CreateWindow("Button", "Generate Video", WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON, BUTTON_X,
-                                   BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, hWnd, (HMENU) BTN_ID, GetModuleHandle(NULL),
+                                   BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, hWnd, (HMENU) BTN_ID, hInst,
                                    NULL);
+            hEdit = CreateWindow("Edit", NULL, WS_CHILD | WS_VISIBLE | WS_BORDER | ES_LEFT | ES_AUTOVSCROLL,
+                                 MAIN_WINDOW_WIDTH/10, (MAIN_WINDOW_HEIGHT*8)/10, 200,
+                                 20, hWnd, (HMENU) EDT_CTL_ID, hInst, NULL);
+            hInitBMPWnd = CreateWindow("STATIC", "Bitmap initial", WS_CHILD | WS_VISIBLE | SS_BITMAP | WS_BORDER,
+                                       (MAIN_WINDOW_WIDTH*8)/10, (MAIN_WINDOW_HEIGHT*3)/5, 0, 0, hWnd, (HMENU) IBMP_ID,
+                                       hInst, NULL);
+            if (hInitBMPWnd == NULL) {
+                MessageBox(hWnd, "Error creating initial BMP static control.", "Error!", MB_OK | MB_ICONEXCLAMATION);
+                DestroyWindow(hWnd);
+            }
+            hBMP = (HBITMAP) LoadImage(NULL, BMP_PATH, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+            if (hBMP == NULL) {
+                MessageBox(hWnd, "Error loading BMP image.", "Error!", MB_OK | MB_ICONEXCLAMATION);
+                DestroyWindow(hWnd);
+            }
+            SendMessage(hInitBMPWnd, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) hBMP);
+            RECT iBMPRect; GetWindowRect(hInitBMPWnd, &iBMPRect);
+            double ratio = ((double) iBMPRect.right - (double) iBMPRect.left) /
+                           ((double) iBMPRect.bottom - (double) iBMPRect.top);
+            hFinalBMPWnd = CreateWindow("STATIC", "Bitmap final", WS_CHILD | WS_VISIBLE | WS_BORDER | SS_BITMAP |
+            SS_NOTIFY, (MAIN_WINDOW_WIDTH*6)/10, (MAIN_WINDOW_HEIGHT*6)/10, MAIN_WINDOW_WIDTH / 4,
+            ((double) (MAIN_WINDOW_WIDTH / 4))/ratio, hWnd, (HMENU) FBMP_ID, hInst, NULL);
+            RECT fBMPRect; GetWindowRect(hFinalBMPWnd, &fBMPRect);
+            HDC initHDC = GetDC(hInitBMPWnd);
+            HDC finalHDC = GetDC(hFinalBMPWnd);
+            HDC compDC = CreateCompatibleDC(GetDC(hWnd));
+            HBITMAP dest = CreateCompatibleBitmap(compDC, MAIN_WINDOW_WIDTH / 4, ((double) (MAIN_WINDOW_WIDTH / 4))/ratio);
+            SelectObject(compDC, dest);
+            // char what[100] = {0}; sprintf(what, "GetDeviceCaps(): %d", GetDeviceCaps(finalHDC, RC_STRETCHBLT));
+            // MessageBoxA(hWnd, what, "Error!", MB_OK);
+            if (!StretchBlt(compDC, (MAIN_WINDOW_WIDTH*6)/10, (MAIN_WINDOW_HEIGHT*6)/10, MAIN_WINDOW_WIDTH / 4,
+                       ((double) (MAIN_WINDOW_WIDTH / 4))/ratio, initHDC, (MAIN_WINDOW_WIDTH*8)/10,
+                       (MAIN_WINDOW_HEIGHT*3)/5, iBMPRect.right - iBMPRect.left, iBMPRect.bottom - iBMPRect.top,
+                       SRCCOPY)) {
+                MessageBox(hWnd, "Error displacing BMP image.", "Error!", MB_OK | MB_ICONEXCLAMATION);
+                DestroyWindow(hWnd);
+            }
+            if (initHDC == NULL) {
+                MessageBox(hWnd, "Error retrieving HDC of the initial BMP static control.", "Error!", MB_OK |
+                MB_ICONEXCLAMATION);
+                DestroyWindow(hWnd);
+            }
             HFONT hTxtFont = CreateFont(MAIN_TEXT_FONT_HEIGHT, MAIN_TEXT_FONT_WIDTH, 0, 0, FW_NORMAL, FALSE, TRUE,
                                         FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
                                         DEFAULT_QUALITY, FF_DONTCARE, NULL);
@@ -77,6 +134,14 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
                 MessageBox(hWnd, "Error creating button font.", "Error!", MB_ICONEXCLAMATION | MB_OK);
                 DestroyWindow(hWnd);
             }
+            if (hEdit == NULL) {
+                MessageBox(hWnd, "Error creating text edit control.", "Error!", MB_OK | MB_ICONEXCLAMATION);
+                DestroyWindow(hWnd);
+            }
+            // if (hFinalBMPWnd == NULL) {
+            //     MessageBox(hWnd, "Error creating final BMP static control.", "Error!", MB_OK | MB_ICONEXCLAMATION);
+            //     DestroyWindow(hWnd);
+            // }
             SendMessage(hTxt, WM_SETFONT, (WPARAM) hTxtFont, TRUE);
             SendMessage(hButton, WM_SETFONT, (WPARAM) hBtnFont, TRUE);
             break;
@@ -111,6 +176,10 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
         case WM_COMMAND: {
             if (LOWORD(wParam) == BTN_ID) {
                 if (HIWORD(wParam) == BN_CLICKED) {
+                    if (replaceWithTime(filePath, timeOffset)) {
+                        MessageBox(hWnd, "Error generating file path.", "Error!", MB_OK | MB_ICONEXCLAMATION);
+                        DestroyWindow(hWnd);
+                    }
                     char *msg = malloc(strlen_c(filePath) + 29);
                     sprintf(msg, "The .avi file was saved as: %s", filePath);
                     MessageBox(hWnd, msg, "File Info", MB_OK | MB_ICONINFORMATION);
@@ -144,8 +213,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         MessageBox(NULL, "Home directory path is too long.", "Error!", MB_OK | MB_ICONEXCLAMATION);
         return -1;
     }
-
-    strcat_c(filePath, "\\GeneratedAvi"); strcat_c(filePath, getFormattedTime()); strcat_c(filePath, ".avi");
+    timeOffset = strlen_c(filePath) + 13;
+    strcat_c(filePath, "\\GeneratedAvi"); strcat_c(filePath, "                   "); strcat_c(filePath, ".avi");
 
     const char WindClsName[] = "Video Window Class";
 

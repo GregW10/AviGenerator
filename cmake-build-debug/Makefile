@@ -141,6 +141,43 @@ AviGenerator/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\AviGenerator.dir\build.make CMakeFiles/AviGenerator.dir/build
 .PHONY : AviGenerator/fast
 
+#=============================================================================
+# Target rules for targets named Testing
+
+# Build rule for target.
+Testing: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 Testing
+.PHONY : Testing
+
+# fast build rule for target.
+Testing/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Testing.dir\build.make CMakeFiles/Testing.dir/build
+.PHONY : Testing/fast
+
+Testing.obj: Testing.c.obj
+.PHONY : Testing.obj
+
+# target to build an object file
+Testing.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Testing.dir\build.make CMakeFiles/Testing.dir/Testing.c.obj
+.PHONY : Testing.c.obj
+
+Testing.i: Testing.c.i
+.PHONY : Testing.i
+
+# target to preprocess a source file
+Testing.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Testing.dir\build.make CMakeFiles/Testing.dir/Testing.c.i
+.PHONY : Testing.c.i
+
+Testing.s: Testing.c.s
+.PHONY : Testing.s
+
+# target to generate assembly for a file
+Testing.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Testing.dir\build.make CMakeFiles/Testing.dir/Testing.c.s
+.PHONY : Testing.c.s
+
 delete.obj: delete.c.obj
 .PHONY : delete.obj
 
@@ -198,7 +235,11 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... AviGenerator
+	@echo ... Testing
 	@echo ... delete
+	@echo ... Testing.obj
+	@echo ... Testing.i
+	@echo ... Testing.s
 	@echo ... delete.obj
 	@echo ... delete.i
 	@echo ... delete.s

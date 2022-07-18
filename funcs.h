@@ -29,14 +29,13 @@ size_t strcat_c(char *destStr, const char *srcStr) {
         return 0;
     }
     size_t count = 0;
-    while (*destStr++);
-    --destStr;
+    while (*++destStr);
     while ((*destStr++ = *srcStr++)) ++count;
     return count;
 }
 
 size_t strcpy_c(char *destStr, const char *srcStr) { // copies the null character
-    if (destStr == NULL || srcStr == NULL || *srcStr == 0 || *destStr == 0) {
+    if (destStr == NULL || srcStr == NULL || *srcStr == 0) {
         return 0;
     }
     size_t count = 0;
@@ -119,7 +118,7 @@ const char *getFormattedTime() {
 }
 
 int replaceWithTime(char *str, size_t pos) {
-    if (str == NULL || *str == 0) {
+    if (str == NULL) {
         return 1;
     }
     const char *time = getFormattedTime();
@@ -131,10 +130,27 @@ int replaceWithTime(char *str, size_t pos) {
     while (*time) {
         *str++ = *time++;
     }
-    if (len < strlen_c(time)) {
+    if (len - pos < strlen_c(time)) {
         *str = 0;
     }
     return 0;
+}
+
+void printAllChars(const char *str, size_t num) {
+    if (str == NULL) {
+        return;
+    }
+    if (num != 0) {
+        num = -1;
+        goto start;
+    }
+    if (*str == 0) {
+        return;
+    }
+    size_t count = 0;
+    start:
+    while (*str || count++ <= num) printf("%c", *str++);
+    printf("\n");
 }
 #endif
 #endif

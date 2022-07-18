@@ -6,3 +6,4 @@ set(C_CMAKE_FLAGS "-static")
 
 add_executable(AviGenerator WIN32 main.c funcs.h)
 add_executable(delete delete.c)
+add_executable(Testing Testing.c)

@@ -64,6 +64,7 @@ CMAKE_BINARY_DIR = C:\Users\mario\AviGenerator\cmake-build-debug
 # The main recursive "all" target.
 all: CMakeFiles/delete.dir/all
 all: CMakeFiles/AviGenerator.dir/all
+all: CMakeFiles/Testing.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -73,6 +74,7 @@ preinstall:
 # The main recursive "clean" target.
 clean: CMakeFiles/delete.dir/clean
 clean: CMakeFiles/AviGenerator.dir/clean
+clean: CMakeFiles/Testing.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -82,7 +84,7 @@ clean: CMakeFiles/AviGenerator.dir/clean
 CMakeFiles/delete.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\delete.dir\build.make CMakeFiles/delete.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\delete.dir\build.make CMakeFiles/delete.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\mario\AviGenerator\cmake-build-debug\CMakeFiles --progress-num=3,4 "Built target delete"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\mario\AviGenerator\cmake-build-debug\CMakeFiles --progress-num=5,6 "Built target delete"
 .PHONY : CMakeFiles/delete.dir/all
 
 # Build rule for subdir invocation for target.
@@ -126,6 +128,32 @@ AviGenerator: CMakeFiles/AviGenerator.dir/rule
 CMakeFiles/AviGenerator.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\AviGenerator.dir\build.make CMakeFiles/AviGenerator.dir/clean
 .PHONY : CMakeFiles/AviGenerator.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/Testing.dir
+
+# All Build rule for target.
+CMakeFiles/Testing.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Testing.dir\build.make CMakeFiles/Testing.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Testing.dir\build.make CMakeFiles/Testing.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\mario\AviGenerator\cmake-build-debug\CMakeFiles --progress-num=3,4 "Built target Testing"
+.PHONY : CMakeFiles/Testing.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/Testing.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\mario\AviGenerator\cmake-build-debug\CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/Testing.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\mario\AviGenerator\cmake-build-debug\CMakeFiles 0
+.PHONY : CMakeFiles/Testing.dir/rule
+
+# Convenience name for target.
+Testing: CMakeFiles/Testing.dir/rule
+.PHONY : Testing
+
+# clean rule for target.
+CMakeFiles/Testing.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Testing.dir\build.make CMakeFiles/Testing.dir/clean
+.PHONY : CMakeFiles/Testing.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.
