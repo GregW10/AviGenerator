@@ -65,8 +65,8 @@ char *getFormattedTime() {
     char *ptr = retStr;
     time_t t = time(NULL);
     char *tm = ctime(&t);
-    *ptr++ = *(tm + 8); *ptr++ = *(tm + 9); *ptr++ = '_';
     char *ot = tm + 4;
+    *ptr++ = *(tm + 8); *ptr++ = *(tm + 9); *ptr++ = '_';
     *ptr++ = *ot == 'O' || *ot == 'N' || *ot == 'D' ? '1' : '0';
     switch (*ot) {
         case 'J':
@@ -99,7 +99,11 @@ char *getFormattedTime() {
     }
     *ptr++ = '_'; ot = tm + 20;
     while ((*ptr++ = *ot++));
-    *--ptr = '_';
+    --ptr;
+    *--ptr = '_'; ot = tm + 11; char *end = tm + 19;
+    while (ot < end) {
+        *++ptr = *ot++;
+    }
     return retStr;
 }
 

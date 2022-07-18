@@ -1,0 +1,3 @@
+"C:\Program Files\JetBrains\CLion 2021.3.1\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\AviGenerator.dir/objects.a
+C:\PROGRA~1\JETBRA~1\CLION2~1.1\bin\mingw\bin\ar.exe qc CMakeFiles\AviGenerator.dir/objects.a @CMakeFiles\AviGenerator.dir\objects1.rsp
+C:\PROGRA~1\JETBRA~1\CLION2~1.1\bin\mingw\bin\gcc.exe -g -mwindows -Wl,--whole-archive CMakeFiles\AviGenerator.dir/objects.a -Wl,--no-whole-archive -o AviGenerator.exe -Wl,--out-implib,libAviGenerator.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\AviGenerator.dir\linklibs.rsp

@@ -9,6 +9,8 @@
 #include <windows.h>
 #include "funcs.h"
 
+#define FILE_STR_LEN 37
+
 unsigned short x_screen;
 unsigned short y_screen;
 
@@ -137,6 +139,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         MessageBox(NULL, "Error retrieving home path.", "Error!", MB_OK | MB_ICONEXCLAMATION);
         return -1;
     }
+
+    if (PATH_MAX - strlen_c(filePath) - 1 < FILE_STR_LEN) {
+        MessageBox(NULL, "Home directory path is too long.", "Error!", MB_OK | MB_ICONEXCLAMATION);
+        return -1;
+    }
+
+    strcat_c(filePath, "\\GeneratedAvi"); strcat_c(filePath, getFormattedTime()); strcat_c(filePath, ".avi");
 
     const char WindClsName[] = "Video Window Class";
 

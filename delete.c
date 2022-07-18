@@ -11,7 +11,13 @@ int main() {
 
     printf("Compare: %d\n", strcmp_c(one, two));
 
-    printf("time: %s\n", getFormattedTime());
+    char *str;
+
+    printf("time: %s\n", str = getFormattedTime());
+
+    while (*str) {
+        printf("Char: %d\n", *str++);
+    }
 
     return 0;
 }
