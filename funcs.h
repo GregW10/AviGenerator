@@ -5,6 +5,8 @@
 #ifndef AVI_GENERATOR_FUNCS
 #define AVI_GENERATOR_FUNCS
 
+#ifdef _WIN32
+
 #include <stdio.h>
 #include <time.h>
 #include <shlobj.h>
@@ -106,5 +108,5 @@ char *getFormattedTime() {
     }
     return retStr;
 }
-
+#endif
 #endif
