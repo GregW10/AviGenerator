@@ -15,7 +15,7 @@ typedef enum {
     False, True
 } bool;
 
-size_t strlen_c(const char *str) {
+size_t wcslen_c(const wchar_t *str) {
     if (str == NULL || *str == 0) {
         return 0;
     }
@@ -24,7 +24,7 @@ size_t strlen_c(const char *str) {
     return count;
 }
 
-size_t strcat_c(char *destStr, const char *srcStr) {
+size_t wcscat_c(wchar_t *destStr, const wchar_t *srcStr) {
     if (destStr == NULL || srcStr == NULL || *srcStr == 0 || *destStr == 0) {
         return 0;
     }
@@ -34,7 +34,7 @@ size_t strcat_c(char *destStr, const char *srcStr) {
     return count;
 }
 
-size_t strcpy_c(char *destStr, const char *srcStr) { // copies the null character
+size_t wcscpy_c(wchar_t *destStr, const wchar_t *srcStr) { // copies the null character
     if (destStr == NULL || srcStr == NULL || *srcStr == 0) {
         return 0;
     }
@@ -43,7 +43,7 @@ size_t strcpy_c(char *destStr, const char *srcStr) { // copies the null characte
     return count;
 }
 
-short strcmp_c(const char *str1, const char *str2) {
+short wcscmp_c(const wchar_t *str1, const wchar_t *str2) {
     if (str1 == NULL || str2 == NULL || *str1 == 0 || *str2 == 0) {
         return 0;
     }
@@ -58,21 +58,21 @@ short strcmp_c(const char *str1, const char *str2) {
     return 0;
 }
 
-char *getHomePath(bool reallocate) {
-    char *retPath = malloc(PATH_MAX);
-    if (SHGetFolderPath(NULL, CSIDL_PROFILE, NULL, SHGFP_TYPE_CURRENT, retPath) != S_OK) {
+wchar_t *getHomePath(bool reallocate) {
+    wchar_t *retPath = malloc(PATH_MAX*sizeof(wchar_t));
+    if (SHGetFolderPathW(NULL, CSIDL_PROFILE, NULL, SHGFP_TYPE_CURRENT, retPath) != S_OK) {
         free(retPath);
         return NULL;
     }
     if (reallocate) {
-        retPath = realloc(retPath, strlen_c(retPath) + 1);
+        retPath = realloc(retPath, wcslen_c(retPath) + 2);
     }
     return retPath;
 }
 
-const char *getFormattedTime() {
-    static char retStr[20] = {0};
-    char *ptr = retStr;
+const wchar_t *getFormattedTime() {
+    static wchar_t retStr[20] = {0};
+    wchar_t *ptr = retStr;
     time_t t = time(NULL);
     char *tm = ctime(&t);
     char *ot = tm + 4;
@@ -117,26 +117,26 @@ const char *getFormattedTime() {
     return retStr;
 }
 
-int replaceWithTime(char *str, size_t pos) {
+int replaceWithTime(wchar_t *str, size_t pos) {
     if (str == NULL) {
         return 1;
     }
-    const char *time = getFormattedTime();
+    const wchar_t *time = getFormattedTime();
     size_t len;
-    if ((len = strlen_c(str)) < pos) {
+    if ((len = wcslen_c(str)) < pos) {
         pos = len;
     }
     str += pos;
     while (*time) {
         *str++ = *time++;
     }
-    if (len - pos < strlen_c(time)) {
+    if (len - pos < wcslen_c(time)) {
         *str = 0;
     }
     return 0;
 }
 
-void printAllChars(const char *str, size_t num) {
+void printAllChars(const wchar_t *str, size_t num) {
     if (str == NULL) {
         return;
     }
@@ -149,8 +149,28 @@ void printAllChars(const char *str, size_t num) {
     }
     size_t count = 0;
     start:
-    while (*str || count++ <= num) printf("%c", *str++);
-    printf("\n");
+    while (*str || count++ <= num) wprintf(L"%lc", *str++);
+    wprintf(L"\n");
+}
+
+long double getBMPheightToWidth(const wchar_t *path) {
+    FILE *fp = _wfopen(path, L"rb");
+    if (fp == NULL) {
+        return 0;
+    }
+    unsigned startingAddressOffset;
+    fseek(fp, 10, SEEK_SET);
+    fread(&startingAddressOffset, sizeof(unsigned), 1, fp);
+    if (startingAddressOffset != 54) {
+        return 0;
+    }
+    unsigned width;
+    unsigned height;
+    fseek(fp, 18, SEEK_SET);
+    fread(&width, sizeof(unsigned), 1, fp);
+    fread(&height, sizeof(unsigned), 1, fp);
+    fclose(fp);
+    return ((long double) height) / ((long double) width);
 }
 #endif
 #endif
