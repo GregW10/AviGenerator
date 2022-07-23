@@ -81,7 +81,8 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
                 DestroyWindow(hWnd);
             }
             long double ratio = getBMPheightToWidth(BMP_PATH);
-            hBMP = (HBITMAP) LoadImageW(NULL, BMP_PATH, IMAGE_BITMAP, MAIN_WINDOW_WIDTH/4, (int) ((((double) MAIN_WINDOW_WIDTH)/4.0)*ratio), LR_LOADFROMFILE);
+            hBMP = (HBITMAP) LoadImageW(NULL, BMP_PATH, IMAGE_BITMAP, MAIN_WINDOW_WIDTH/4,
+                                        (int) ((MAIN_WINDOW_WIDTH/4.0)*ratio), LR_LOADFROMFILE);
             if (hBMP == NULL) {
                 MessageBoxW(hWnd, L"Error loading BMP image.", L"Error!", MB_OK | MB_ICONEXCLAMATION);
                 DestroyWindow(hWnd);
