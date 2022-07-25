@@ -58,14 +58,10 @@ short wcscmp_c(const wchar_t *str1, const wchar_t *str2) {
     return 0;
 }
 
-wchar_t *getHomePath(bool reallocate) {
-    wchar_t *retPath = malloc(PATH_MAX*sizeof(wchar_t));
+static inline wchar_t *getHomePath() {
+    static wchar_t retPath[MAX_PATH];
     if (SHGetFolderPathW(NULL, CSIDL_PROFILE, NULL, SHGFP_TYPE_CURRENT, retPath) != S_OK) {
-        free(retPath);
         return NULL;
-    }
-    if (reallocate) {
-        retPath = realloc(retPath, wcslen_c(retPath) + 2);
     }
     return retPath;
 }

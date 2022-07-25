@@ -6,5 +6,5 @@ C_DEFINES =
 
 C_INCLUDES = 
 
-C_FLAGS = -g -std=gnu17
+C_FLAGS = -static -municode -g -std=gnu17
 
